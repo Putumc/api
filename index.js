@@ -257,13 +257,11 @@ app.get('/api/tiktok', async (req, res) => {
     res.json({
         status: true,
         code: 200,
-        creator: `${creator}`,
         result
       })
     })  
     .catch(e => {
             console.log(e);
-            res.json(loghandler.error)
         })
 });
 // Handle 404 error
