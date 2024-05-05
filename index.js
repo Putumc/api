@@ -88,8 +88,8 @@ async function blackboxAIChat(message) {
 }
 
 // Endpoint untuk servis dokumen HTML
-app.get('/ggg', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'home.html'));
 });
 
 // Endpoint untuk ragBot
