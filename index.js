@@ -1,4 +1,4 @@
-aconst express = require('express');
+const express = require('express');
 const cors = require('cors');
 const path = require('path');
 var request = require('request');
@@ -13,7 +13,6 @@ app.set("json spaces", 2);
 // Middleware untuk CORS
 app.use(cors());
 // tiktok
-const cheerio = require("cheerio");
 
 const clean = (data) => {
   let regex = /(<([^>]+)>)/gi;
