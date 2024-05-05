@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+var request = require('request');
+const fetch = require('node-fetch');
 const axios = require('axios');
 
 const app = express();
