@@ -86,7 +86,7 @@ async function blackboxAIChat(message) {
 }
 
 // Endpoint untuk servis dokumen HTML
-app.get('/', (req, res) => {
+app.get('/ggg', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
@@ -179,7 +179,37 @@ app.get('/api/blackboxAIChat', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
-
+app.get('/api/jadianime', async (req, res) => {
+    const url = req.query.url;
+    if (!url) {
+      return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
+    }
+    var requestSettings = {
+        url: `https://skizo.tech/api/toanime?apikey=nana&url=${url}`,
+        method: 'GET',
+        encoding: null
+    };
+    request(requestSettings, function (error, response, body) {
+        res.set('Content-Type', 'image/png');
+        res.send(body);
+    });  
+});
+app.get('/api/djviral', async (req, res) => {
+  let response = await fetch('https://raw.githubusercontent.com/BotzIky/DJ-Viral/main/database.json');
+        var data = await response.json();
+        var randomIndex = Math.floor(Math.random() * data.results.length);
+        var randomResult = data.results[randomIndex];
+        var downloadLink = randomResult.download;
+    var requestSettings = {
+        url: downloadLink,
+        method: 'GET',
+        encoding: null
+    };
+    request(requestSettings, function (error, response, body) {
+        res.set('Content-Type', 'audio/mp3');
+        res.send(body);
+    });
+});
 // Handle 404 error
 app.use((req, res, next) => {
   res.status(404).send("Sorry can't find that!");
