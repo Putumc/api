@@ -1,10 +1,10 @@
-const express = require('express');
+aconst express = require('express');
 const cors = require('cors');
 const path = require('path');
 var request = require('request');
 const fetch = require('node-fetch');
 const axios = require('axios');
-
+const cheerio = require("cheerio");
 const app = express();
 const PORT = process.env.PORT || 3000;
 app.enable("trust proxy");
@@ -12,6 +12,42 @@ app.set("json spaces", 2);
 
 // Middleware untuk CORS
 app.use(cors());
+// tiktok
+const cheerio = require("cheerio");
+
+const clean = (data) => {
+  let regex = /(<([^>]+)>)/gi;
+  data = data.replace(/(<br?\s?\/>)/gi, " \n");
+  return data.replace(regex, "");
+};
+
+async function shortener(url) {
+  return url;
+}
+
+async function tiktok(query)  {
+  let response = await axios("https://lovetik.com/api/ajax/search", {
+    method: "POST",
+    data: new URLSearchParams(Object.entries({ query })),
+  });
+
+  result = {};
+
+  result.creator = "YNTKTS";
+  result.title = clean(response.data.desc);
+  result.author = clean(response.data.author);
+  result.nowm = await shortener(
+    (response.data.links[0].a || "").replace("https", "http")
+  );
+  result.watermark = await shortener(
+    (response.data.links[1].a || "").replace("https", "http")
+  );
+  result.audio = await shortener(
+    (response.data.links[2].a || "").replace("https", "http")
+  );
+  result.thumbnail = await shortener(response.data.cover);
+  return result;
+}
 
 // Fungsi untuk ragBot
 async function ragBot(message) {
@@ -211,6 +247,25 @@ app.get('/api/djviral', async (req, res) => {
         res.set('Content-Type', 'audio/mp3');
         res.send(body);
     });
+});
+app.get('/api/tiktok', async (req, res) => {
+  const url = req.query.url;
+    if (!url) {
+      return res.status(400).json({ error: 'Parameter "message" tidak ditemukan' });
+    }
+  tiktok(url)
+    .then((result) => {
+    res.json({
+        status: true,
+        code: 200,
+        creator: `${creator}`,
+        result
+      })
+    })  
+    .catch(e => {
+            console.log(e);
+            res.json(loghandler.error)
+        })
 });
 // Handle 404 error
 app.use((req, res, next) => {
