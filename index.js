@@ -232,7 +232,7 @@ app.get('/api/jadianime', async (req, res) => {
     });  
 });
 app.get('/api/djviral', async (req, res) => {
-  let response = await fetch('https://raw.githubusercontent.com/BotzIky/DJ-Viral/main/database.json');
+  let response = await fetch('https://raw.githubusercontent.com/putumc/DJ-rian/main/database.json');
         var data = await response.json();
         var randomIndex = Math.floor(Math.random() * data.results.length);
         var randomResult = data.results[randomIndex];
