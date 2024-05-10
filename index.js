@@ -231,6 +231,21 @@ app.get('/api/jadianime', async (req, res) => {
         res.send(body);
     });  
 });
+app.get('/api/remini', async (req, res) => {
+    const url = req.query.url;
+    if (!url) {
+      return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
+    }
+    var requestSettings = {
+        url: `skizo.tech/api/remini?apikey=nana&url=${url}`,
+        method: 'GET',
+        encoding: null
+    };
+    request(requestSettings, function (error, response, body) {
+        res.set('Content-Type', 'image/png');
+        res.send(body);
+    });  
+});
 app.get('/api/djviral', async (req, res) => {
   let response = await fetch('https://raw.githubusercontent.com/putumc/DJ-rian/main/database.json');
         var data = await response.json();
