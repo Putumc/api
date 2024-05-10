@@ -279,6 +279,25 @@ app.get('/api/tiktok', async (req, res) => {
             console.log(e);
         })
 });
+app.get('/api/diffusionXL', async (req, res) => {
+    const message = req.query.query;
+    if (!message) {
+      return res.status(400).json({ error: 'Parameter "query" tidak ditemukan' });
+    }
+   var response = await fetch(`https://skizo.tech/api/sdxl?apikey=nana&prompt=${message}`);
+    var data = await response.json();
+    var { url: url } = data;
+    var requestSettings = {
+        url: url,
+        method: 'GET',
+        encoding: null
+    };
+    request(requestSettings, function (error, response, body) {
+        res.set('Content-Type', 'image/png');
+        res.send(body);
+    });    
+
+});
 // Handle 404 error
 app.use((req, res, next) => {
   res.status(404).send("Sorry can't find that!");
