@@ -267,8 +267,15 @@ app.get('/api/txt2img', async (req, res) => {
     }
   text2img(text)
     .then((buffer) => {
+        var requestSettings = {
+        url: buffer,
+        method: 'GET',
+        encoding: null
+    };
+    }); 
+    request(requestSettings, function (error, response, body) {
         res.set('Content-Type', 'image/png');
-        res.send(buffer);
+        res.send(body);
     });  
 });
 app.get('/api/djviral', async (req, res) => {
