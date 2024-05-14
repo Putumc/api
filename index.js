@@ -272,11 +272,10 @@ app.get('/api/txt2img', async (req, res) => {
         method: 'GET',
         encoding: null
     };
-    });
     request(requestSettings, function (error, response, body) {
         res.set('Content-Type', 'image/png');
         res.send(body);
-      
+    }); 
     }); 
 });
 app.get('/api/djviral', async (req, res) => {
