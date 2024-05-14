@@ -273,7 +273,7 @@ app.get('/api/txt2img', async (req, res) => {
         encoding: null
     };
     request(requestSettings, function (error, response, body) {
-        res.set('Content-Type', 'image/png');
+        res.set('Content-Type', 'image/jpg');
         res.send(body);
     }); 
     }); 
