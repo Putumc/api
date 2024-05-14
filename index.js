@@ -62,7 +62,21 @@ async function ragBot(message) {
     throw error;
   }
 }
-
+// u
+async function text2img(data) {
+  const response = await fetch(
+    "https://api-inference.huggingface.co/models/Yntec/Ninja-Diffusers",
+    {
+      headers: { Authorization: "Bearer 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" },
+      method: "POST",
+      body: JSON.stringify(data),
+    }
+  );
+  const result = await response.blob();
+  let arrayBuffer = await result.arrayBuffer();
+  const buffer = Buffer.from(arrayBuffer, 'base64');
+  return buffer;
+}
 // Fungsi untuk degreeGuru
 async function degreeGuru(message, prompt) {
   try {
@@ -244,6 +258,17 @@ app.get('/api/remini', async (req, res) => {
     request(requestSettings, function (error, response, body) {
         res.set('Content-Type', 'image/png');
         res.send(body);
+    });  
+});
+app.get('/api/txt2img', async (req, res) => {
+    const text = req.query.query;
+    if (!text) {
+      return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
+    }
+  text2img(text)
+    .then((buffer) => {
+        res.set('Content-Type', 'image/png');
+        res.send(buffer);
     });  
 });
 app.get('/api/djviral', async (req, res) => {
