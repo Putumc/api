@@ -4,6 +4,7 @@ const path = require('path');
 var request = require('request');
 const fetch = require('node-fetch');
 const axios = require('axios');
+const { srgan2x, srgan4x } = require('super-resolution-scraper');
 const cheerio = require("cheerio");
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -250,8 +251,10 @@ app.get('/api/remini', async (req, res) => {
     if (!url) {
       return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
     }
+  const img = await srgan4x(url) 
+  const results = img.result
     var requestSettings = {
-        url: `skizo.tech/api/remini?apikey=nana&url=${url}`,
+        url: results,
         method: 'GET',
         encoding: null
     };
