@@ -298,10 +298,11 @@ app.get('/api/bingimg', async (req, res) => {
             if (data.length > 0) 
       for (let i = 0; i < data.length; i++) {
           if (!data[i].endsWith(".svg")) {
+		  const result = data[0]
     res.status(200).json({
       status: 200,
       creator: "RIAN X EXONITY",
-      data[0]
+      result
     
     }); 
 	  }
