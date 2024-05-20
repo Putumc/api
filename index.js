@@ -295,7 +295,7 @@ app.get('/api/bingimg', async (req, res) => {
       cookie: `1exvD-c5dz7ZUTWr5bDiPRx4uPixjkdzYe5fUaVoio0O7WXz3cQoecVHhKzX8ptguxRA9KL0JxhtyFtJrXtDrSndH_Ui2sgZP8eWqMtiHGscCMS9WverzJjSdyopA1RhLpYhmPnk4xIZ8W_54qfzCD4JX8GILGe6SbVhGArbBLNh-efK5Ldvwdit0sC9I-AeM4KM1_43Te90gD85wNuMqnA`,
     });
     const data = await imgc.createImage(message);
-            if (data.length > 0) 
+            if (data.length > 0) {
       for (let i = 0; i < data.length; i++) {
           if (!data[i].endsWith(".svg")) {
 		  const result = data[0]
@@ -306,6 +306,7 @@ app.get('/api/bingimg', async (req, res) => {
     
     }); 
 	  }
+      }
       }
   } catch (error) {
     res.status(500).json({ error: error.message });
