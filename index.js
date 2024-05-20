@@ -7,6 +7,7 @@ const axios = require('axios');
 const { srgan2x, srgan4x } = require('super-resolution-scraper');
 const cheerio = require("cheerio");
 const app = express();
+const { BingImageCreator } = require("./bingimg");
 const apin = require("@siputzx/scraper") 
 const PORT = process.env.PORT || 3000;
 app.enable("trust proxy");
@@ -252,7 +253,7 @@ app.get('/api/remini', async (req, res) => {
     if (!url) {
       return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
     }
-  const img = await srgan4x(url) 
+  const img = await srgan2x(url) 
   const results = img.result
     var requestSettings = {
         url: results,
@@ -284,6 +285,33 @@ app.get('/api/txt2img', async (req, res) => {
         res.send(buffer); 
     }); 
 });
+app.get('/api/bingimg', async (req, res) => {
+  try {
+    const message = req.query.text;
+    if (!message) {
+      return res.status(400).json({ error: 'Parameter "text" tidak ditemukan' });
+    }
+    const imgc = new BingImageCreator({
+      cookie: `1exvD-c5dz7ZUTWr5bDiPRx4uPixjkdzYe5fUaVoio0O7WXz3cQoecVHhKzX8ptguxRA9KL0JxhtyFtJrXtDrSndH_Ui2sgZP8eWqMtiHGscCMS9WverzJjSdyopA1RhLpYhmPnk4xIZ8W_54qfzCD4JX8GILGe6SbVhGArbBLNh-efK5Ldvwdit0sC9I-AeM4KM1_43Te90gD85wNuMqnA`,
+    });
+    const data = await imgc.createImage(message);
+            if (data.length > 0) 
+      for (let i = 0; i < data.length; i++) {
+          if (!data[i].endsWith(".svg")) {
+    res.status(200).json({
+      status: 200,
+      creator: "RIAN X EXONITY",
+      data[0]
+    
+    }); 
+	  }
+      }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+ }       
+
+    });
+
 app.get('/api/djviral', async (req, res) => {
   let response = await fetch('https://raw.githubusercontent.com/putumc/DJ-rian/main/database.json');
         var data = await response.json();
