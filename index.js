@@ -7,6 +7,7 @@ const axios = require('axios');
 const { srgan2x, srgan4x } = require('super-resolution-scraper');
 const cheerio = require("cheerio");
 const app = express();
+const apin = require("@siputzx/scraper") 
 const PORT = process.env.PORT || 3000;
 app.enable("trust proxy");
 app.set("json spaces", 2);
@@ -247,7 +248,7 @@ app.get('/api/jadianime', async (req, res) => {
     });  
 });
 app.get('/api/remini', async (req, res) => {
-    const url = req.query.url;
+ const url = req.query.url;
     if (!url) {
       return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
     }
@@ -262,6 +263,15 @@ app.get('/api/remini', async (req, res) => {
         res.set('Content-Type', 'image/png');
         res.send(body);
     });  
+});
+app.get('/api/remini2', async (req, res) => {
+    const url = req.query.url;
+    if (!url) {
+      return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
+    }
+const thih = await apin.remini(url) 
+        res.set('Content-Type', 'image/jpg');
+        res.send(thih); 
 });
 app.get('/api/txt2img', async (req, res) => {
     const text = req.query.query;
