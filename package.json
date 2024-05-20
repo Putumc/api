@@ -18,6 +18,9 @@
     "super-resolution-scraper": "^1.0.6",
     "node-fetch": "^2.6.1",
     "cors": "^2.8.5",
+    "form-data": "4.0.0",
+    "undici": "^6.6.2",
+    "fake-useragent": "^1.0.1",
     "express": "^4.19.2"
   }
 }
