@@ -7,7 +7,7 @@ const axios = require('axios');
 const { srgan2x, srgan4x } = require('super-resolution-scraper');
 const cheerio = require("cheerio");
 const app = express();
-const { BingImageCreator } = require("./bingimg (1)");
+const { BingImageCreator } = require("./bingimg");
 const apin = require("@siputzx/scraper") 
 const PORT = process.env.PORT || 3000;
 app.enable("trust proxy");
