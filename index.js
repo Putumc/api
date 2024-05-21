@@ -292,7 +292,7 @@ app.get('/api/bingimg', async (req, res) => {
       return res.status(400).json({ error: 'Parameter "text" tidak ditemukan' });
     }
     const imgc = new BingImageCreator({
-      cookie: `1exvD-c5dz7ZUTWr5bDiPRx4uPixjkdzYe5fUaVoio0O7WXz3cQoecVHhKzX8ptguxRA9KL0JxhtyFtJrXtDrSndH_Ui2sgZP8eWqMtiHGscCMS9WverzJjSdyopA1RhLpYhmPnk4xIZ8W_54qfzCD4JX8GILGe6SbVhGArbBLNh-efK5Ldvwdit0sC9I-AeM4KM1_43Te90gD85wNuMqnA`,
+      cookie: `1Zxt18mWglT3GrbMxZDLIJ0nDZ0Pus0Y1lOvqOzhQpiQf3cjUxbtlTId7jaGJMxxwc7TkUFDlc2XOFd8DCd4rXhqQPKj1WZ8uVzl_dprRxDUJKVCnCsgvfjC4KRUDHhnQ8qx6Y0gt62HY2hHIF7QRBJsraay4_2Wj0olI2X4YMp51qgmBVVEQOL0aHugzoA8NnQwOmHlW7MzpzYgnWqTb5w`,
     });
     const data = await imgc.createImage(message);
             if (data.length > 0) {
