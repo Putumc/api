@@ -306,12 +306,12 @@ app.get('/api/txt2img', async (req, res) => {
     if (!text) {
       return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
     }
-const are = await text2img(text)
+const are = await gptPicture(text)
 const result = are.result
     res.status(200).json({
       status: 200,
       creator: "Rian",
-      
+      result
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
