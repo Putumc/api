@@ -66,20 +66,48 @@ async function ragBot(message) {
   }
 }
 // u
-async function text2img(data) {
-  const response = await fetch(
-    "https://api-inference.huggingface.co/models/Yntec/Ninja-Diffusers",
+async function igdl(url) {
+  let res = await axios("https://indown.io/");
+  let _$ = cheerio.load(res.data);
+  let referer = _$("input[name=referer]").val();
+  let locale = _$("input[name=locale]").val();
+  let _token = _$("input[name=_token]").val();
+  let { data } = await axios.post(
+    "https://indown.io/download",
+    new URLSearchParams({
+      link: url,
+      referer,
+      locale,
+      _token,
+    }),
     {
-      headers: { Authorization: "Bearer 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" },
-      method: "POST",
-      body: JSON.stringify(data),
-    }
+      headers: {
+        cookie: res.headers["set-cookie"].join("; "),
+      },
+    },
   );
-  const result = await response.blob();
-  let arrayBuffer = await result.arrayBuffer();
-  const buffer = Buffer.from(arrayBuffer, 'base64');
-  return buffer;
+  let $ = cheerio.load(data);
+  let result = [];
+  let __$ = cheerio.load($("#result").html());
+  __$("video").each(function () {
+    let $$ = $(this);
+    result.push({
+      type: "video",
+      thumbnail: $$.attr("poster"),
+      url: $$.find("source").attr("src"),
+    });
+  });
+  __$("img").each(function () {
+    let $$ = $(this);
+    result.push({
+      type: "image",
+      url: $$.attr("src"),
+    });
+  });
+
+  return result;
 }
+
 // Fungsi untuk degreeGuru
 async function degreeGuru(message, prompt) {
   try {
@@ -93,33 +121,7 @@ async function degreeGuru(message, prompt) {
     throw error;
   }
 }
-async function gptPicture(query) {
-  const playod = {
-    captionInput: query,
-    captionModel: 'default',
-  };
-  try {
-    const response = await axios.post('https://chat-gpt.pictures/api/generateImage',
-      playod,
-      {
-        headers: {
-          Accept: '*/*',
-          'Content-Type': 'application/json',
-          'User-Agent': 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Mobile Safari/537.36',
-        }
-      });
-    const data = response.data;
-    const result = {
-      data: data,
-    };
 
-    console.log(result);
-    return result;
-  } catch (error) {
-    console.error(error);
-    return error.message;
-  }
-	  }
 // Fungsi untuk pinecone
 async function pinecone(message) {
   try {
@@ -300,13 +302,13 @@ const thih = await apin.remini(url)
         res.set('Content-Type', 'image/jpg');
         res.send(thih); 
 });
-app.get('/api/txt2img', async (req, res) => {
+app.get('/api/igdownload', async (req, res) => {
 	try{
-    const text = req.query.query;
+    const text = req.query.url;
     if (!text) {
       return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
     }
-const are = await gptPicture(text)
+const are = await igdl(text)
 const result = are.result
     res.status(200).json({
       status: 200,
