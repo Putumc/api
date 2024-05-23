@@ -93,7 +93,33 @@ async function degreeGuru(message, prompt) {
     throw error;
   }
 }
+async function gptPicture(query) {
+  const playod = {
+    captionInput: query,
+    captionModel: 'default',
+  };
+  try {
+    const response = await axios.post('https://chat-gpt.pictures/api/generateImage',
+      playod,
+      {
+        headers: {
+          Accept: '*/*',
+          'Content-Type': 'application/json',
+          'User-Agent': 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Mobile Safari/537.36',
+        }
+      });
+    const data = response.data;
+    const result = {
+      data: data,
+    };
 
+    console.log(result);
+    return result;
+  } catch (error) {
+    console.error(error);
+    return error.message;
+  }
+	  }
 // Fungsi untuk pinecone
 async function pinecone(message) {
   try {
@@ -275,15 +301,21 @@ const thih = await apin.remini(url)
         res.send(thih); 
 });
 app.get('/api/txt2img', async (req, res) => {
+	try{
     const text = req.query.query;
     if (!text) {
       return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
     }
-  text2img(text)
-    .then((buffer) => {
-       res.set('Content-Type', 'image/png');
-        res.send(buffer); 
-    }); 
+const are = await text2img(text)
+const result = are.result
+    res.status(200).json({
+      status: 200,
+      creator: "Rian",
+      
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
 app.get('/api/bingimg', async (req, res) => {
   try {
@@ -298,11 +330,11 @@ app.get('/api/bingimg', async (req, res) => {
             if (data.length > 0) {
       for (let i = 0; i < data.length; i++) {
           if (!data[i].endsWith(".svg")) {
-		  const result = data[i]
+		  
     res.status(200).json({
       status: 200,
       creator: "RIAN X EXONITY",
-      result
+      data[i]
     
     }); 
 	  }
