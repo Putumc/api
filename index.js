@@ -308,13 +308,14 @@ app.get('/api/igdownload', async (req, res) => {
     if (!text) {
       return res.status(400).json({ error: 'Parameter "url" tidak ditemukan' });
     }
-const are = await igdl(text)
-const result = are.result
+igdl(text) 
+	.then((result) => {	
     res.status(200).json({
       status: 200,
       creator: "Rian",
       result
     });
+	}) 
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
